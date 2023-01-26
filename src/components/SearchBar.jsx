@@ -7,7 +7,7 @@ export default function SearchBar() {
   const [searchInput, setSearchInput] = useState('');
   const history = useHistory();
 
-  const { fetchData } = useContext(Context);
+  const { fetchData, setRecipes } = useContext(Context);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,7 +34,9 @@ export default function SearchBar() {
 
     const mealsOrDrink = await fetchData(url.baseUrl + url.endPoint);
 
-    const results = mealsOrDrink[pathname.split('/')[1]];
+    const pageName = pathname.split('/')[1];
+
+    const results = mealsOrDrink[pageName];
 
     if (!results) {
       global.alert('Sorry, we haven\'t found any recipes for these filters.');
@@ -47,6 +49,7 @@ export default function SearchBar() {
       return;
     }
 
+    setRecipes((prevState) => ({ ...prevState, [pageName]: results }));
     history.push(pathname);
   };
 
