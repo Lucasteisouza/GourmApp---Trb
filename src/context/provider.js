@@ -4,9 +4,13 @@ import context from './context';
 
 function Provider({ children }) {
   const [userName, setUserName] = useState('');
+  const [recipes, setRecipes] = useState({
+    meals: [],
+    drinks: [],
+  });
   const userValue = useMemo(() => ({
-    userName, setUserName,
-  }), [userName]);
+    userName, setUserName, recipes, setRecipes,
+  }), [userName, recipes]);
   return (
     <context.Provider value={ userValue }>
       {children}
