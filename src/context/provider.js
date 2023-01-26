@@ -5,17 +5,17 @@ import useFetch from '../hooks/useFetch';
 
 function Provider({ children }) {
   const [userName, setUserName] = useState('');
-  const { data: apiData, loading, error, fetchData } = useFetch();
+  const { data: searchResult, loading, error, fetchData } = useFetch();
 
   const userValue = useMemo(() => ({
     userName,
     setUserName,
-    apiData,
+    searchResult,
     loading,
     error,
     fetchData,
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }), [userName, apiData, loading, error]);
+  }), [userName, searchResult, loading, error]);
 
   return (
     <context.Provider value={ userValue }>

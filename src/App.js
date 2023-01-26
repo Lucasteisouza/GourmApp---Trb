@@ -10,14 +10,11 @@ import Recipes from './pages/Recipes';
 import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipes from './pages/FavoriteRecipes';
 import Provider from './context/provider';
-import Header from './components/Header';
 
 function App() {
   return (
     <Provider>
       <Switch>
-        <Header />
-
         <Route exact path="/" component={ Login } />
         <Route exact path="/meals" component={ Recipes } />
         <Route exact path="/drinks" component={ Recipes } />

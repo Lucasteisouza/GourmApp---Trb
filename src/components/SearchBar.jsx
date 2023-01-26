@@ -7,13 +7,15 @@ export default function SearchBar() {
   const [searchInput, setSearchInput] = useState('');
   const history = useHistory();
 
-  const { apiData, fetchData } = useContext(Context);
+  const { fetchData } = useContext(Context);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const { pathname } = history.location;
+
     const url = {
-      baseUrl: history.location.pathname === '/meal'
-        ? 'https://www.themealdb.com/api/json/v1/1/' : 'https://www.themealdb.com/api/json/v1/1/',
+      baseUrl: pathname === '/meals'
+        ? 'https://www.themealdb.com/api/json/v1/1/' : 'https://www.thecocktaildb.com/api/json/v1/1/',
       endPoint: '',
     };
 
@@ -31,16 +33,21 @@ export default function SearchBar() {
     }
 
     const mealsOrDrink = await fetchData(url.baseUrl + url.endPoint);
-    const { pathname } = history.location;
 
     const results = mealsOrDrink[pathname.split('/')[1]];
 
     if (!results) {
       global.alert('Sorry, we haven\'t found any recipes for these filters.');
-    } else if (results.length === 1) {
+      return;
+    }
+
+    if (results.length === 1) {
       history.push(`${history.location.pathname}/${results[0].idMeal
         || results[0].idDrink}`);
+      return;
     }
+
+    history.push(pathname);
   };
 
   return (
