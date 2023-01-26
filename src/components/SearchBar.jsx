@@ -9,7 +9,7 @@ export default function SearchBar() {
 
   const { apiData, fetchData } = useContext(Context);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const url = {
       baseUrl: history.location.pathname === '/meal'
@@ -30,11 +30,11 @@ export default function SearchBar() {
       return;
     }
 
-    fetchData(url.baseUrl + url.endPoint);
+    await fetchData(url.baseUrl + url.endPoint);
   };
 
   // useEffect(() => {
-
+    
   // }, [apiData]);
 
   return (
