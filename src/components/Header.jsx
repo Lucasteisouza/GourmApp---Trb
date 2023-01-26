@@ -16,14 +16,14 @@ function Header() {
     <header>
       {pathname === '/meals' && (
         <>
-          <h3 data-test-id="page-title">Meals</h3>
+          <h3 data-testid="page-title">Meals</h3>
           <button
-            data-test-id="search-top-btn"
+            data-testid="search-top-btn"
             onClick={ () => setShowSearchBar(!showSearchBar) }
           >
             <img src={ searchIcon } alt="Ícone de busca" />
           </button>
-          <button data-test-id="profile-top-btn" onClick={ handleClickProfile }>
+          <button data-testid="profile-top-btn" onClick={ handleClickProfile }>
             <img src={ profileIcon } alt="Ícone de perfil" />
           </button>
           {
@@ -32,9 +32,9 @@ function Header() {
         </>)}
       {pathname === '/drinks' && (
         <>
-          <h3 data-test-id="page-title">Drinks</h3>
+          <h3 data-testid="page-title">Drinks</h3>
           <button
-            data-test-id="search-top-btn"
+            data-testid="search-top-btn"
             onClick={ () => setShowSearchBar(!showSearchBar) }
           >
             <img src={ searchIcon } alt="Ícone de busca" />
