@@ -30,7 +30,17 @@ export default function SearchBar() {
       return;
     }
 
-    const mealsOrawait = await fetchData(url.baseUrl + url.endPoint);
+    const mealsOrDrink = await fetchData(url.baseUrl + url.endPoint);
+    const { pathname } = history.location;
+
+    const results = mealsOrDrink[pathname.split('/')[1]];
+
+    if (!results) {
+      global.alert('Sorry, we haven\'t found any recipes for these filters.');
+    } else if (results.length === 1) {
+      history.push(`${history.location.pathname}/${results[0].idMeal
+        || results[0].idDrink}`);
+    }
   };
 
   return (
