@@ -8,15 +8,7 @@ function Profile() {
 
   const [email, setEmail] = useState(() => { setEmail(); });
 
-  useEffect(() => {
-    // saveEmailLocalStorage(userEmail);
-    setEmail(() => {
-      const saved = localStorage.getItem('email');
-      const initialValue = JSON.parse(saved);
-      console.log(initialValue);
-      return initialValue || '';
-    });
-  }, []);
+      const user = JSON.parse(localStorage.getItem('user')) || ''
 
   return (
     <div>
