@@ -6,7 +6,7 @@ function Profile() {
   //   localStorage.setItem('email', JSON.stringify(e));
   // };
 
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState(() => { setEmail(); });
 
   useEffect(() => {
     // saveEmailLocalStorage(userEmail);
