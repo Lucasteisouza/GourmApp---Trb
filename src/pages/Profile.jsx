@@ -1,5 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import Footer from '../components/Footer';
 
 function Profile() {
   const user = JSON.parse(localStorage.getItem('user')) || '';
@@ -46,6 +47,7 @@ function Profile() {
 
         </button>
       </div>
+      <Footer />
     </div>
   );
 }
