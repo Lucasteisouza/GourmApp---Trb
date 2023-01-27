@@ -15,7 +15,6 @@ function App() {
   return (
     <Provider>
       <Switch>
-
         <Route exact path="/" component={ Login } />
         <Route exact path="/meals" component={ Recipes } />
         <Route exact path="/drinks" component={ Recipes } />
