@@ -1,7 +1,7 @@
 import oneMeal from '../../../cypress/mocks/oneMeal';
 import drinks from '../../../cypress/mocks/drinks';
 import drinkCategories from '../../../cypress/mocks/drinkCategories';
-import ordinaryDrinks from '../../../cypress/mocks/ordinaryDrinks';
+import cocktailDrinks from '../../../cypress/mocks/cocktailDrinks';
 import mealCategories from '../../../cypress/mocks/mealCategories';
 import meals from '../../../cypress/mocks/meals';
 import mealsByIngredient from '../../../cypress/mocks/mealsByIngredient';
@@ -59,8 +59,8 @@ const mockFetch = (url) => Promise.resolve({
       return Promise.resolve(beefMeals);
     }
 
-    if (url === `${DRINKS_URL}filter.php?c=Ordinary%20Drink`) {
-      return Promise.resolve(ordinaryDrinks);
+    if (url === `${DRINKS_URL}filter.php?c=Cocktail`) {
+      return Promise.resolve(cocktailDrinks);
     }
   },
 });

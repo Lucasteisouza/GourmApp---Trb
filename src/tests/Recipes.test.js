@@ -57,11 +57,18 @@ describe('testa a página Recipes e suas funcionalidades', () => {
     const allFilter = screen.getByTestId(ALL_FILTER);
     expect(allFilter).toBeInTheDocument();
 
-    const catFilter = await screen.findByTestId('Ordinary Drink-category-filter');
+    const catFilter = await screen.findByTestId('Cocktail-category-filter');
     expect(catFilter).toBeInTheDocument();
 
+    const drink1 = screen.getByRole('button', { name: /gg gg/i });
+    expect(drink1).toBeInTheDocument();
+
+    act(() => { userEvent.click(catFilter); });
+
+    const drink2 = await screen.findByRole('button', { name: /155 belmont 155 belmont/i });
+    expect(drink2).toBeInTheDocument();
+
     act(() => {
-      userEvent.click(catFilter);
       userEvent.click(catFilter);
       userEvent.click(allFilter);
     });
@@ -90,7 +97,7 @@ describe('testa a página Recipes e suas funcionalidades', () => {
 
     act(() => { userEvent.click(catFilter); });
 
-    const meal2 = await screen.findByTestId(CARD);
+    const meal2 = await screen.findByRole('button', { name: /beef and mustard pie beef and mustard pie/i });
     expect(meal2).toBeInTheDocument();
 
     act(() => {
