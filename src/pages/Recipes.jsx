@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 import { fetchDrinks, fetchMeals, fetchMealCategories,
   fetchDrinkCategories, fetchDrinkByCategory,
   fetchMealByCategory } from '../services/fetch';
@@ -111,6 +112,8 @@ function Recipes() {
         meal
         thumbnail={ meal.strMealThumb }
       />))}
+
+      <Footer />
     </div>
   );
 }
