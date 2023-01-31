@@ -14,13 +14,14 @@ function RecipeInProgress({ match, history }) {
   const checkerLocalStorage = JSON.parse(localStorage.getItem('checkerList'));
 
   const fetcher = async () => {
-    const currentMealOrDrink = mealOrDrink === 'meals'
+    const currentMealOrDrinkResponse = mealOrDrink === 'meals'
       ? await fetchMealsById(recipeId)
       : await fetchDrinksById(recipeId);
+    const currentMealOrDrink = currentMealOrDrinkResponse[mealOrDrink][0];
     setCurrentRecipe(currentMealOrDrink);
     const currentIngredientEntries = Object.entries(currentMealOrDrink);
     const currentIngredientList = currentIngredientEntries
-      .filter((e) => e[0].includes('Ingredient') && e[1].length > 0)
+      .filter((e) => e[0].includes('Ingredient') && e[1])
       .map((e) => e[1]);
     setIngredientList(currentIngredientList);
     if (!checkerLocalStorage) {
@@ -42,14 +43,14 @@ function RecipeInProgress({ match, history }) {
       ? (
         <div>
           <h3 data-testid="recipe-title">
-            { currentMealOrDrink.strMeals }
+            { currentMealOrDrink.strMeal }
           </h3>
           <p data-testid="recipe-category">
             { currentMealOrDrink.strCategory }
           </p>
           <img
             src={ currentMealOrDrink.strMealThumb }
-            alt={ currentMealOrDrink.strMeals }
+            alt={ currentMealOrDrink.strMeal }
             data-testid="recipe-photo"
           />
           <p data-testid="instructions">
@@ -96,11 +97,11 @@ function RecipeInProgress({ match, history }) {
       tags: currentRecipe.strTags,
     };
     if (!localFinished) {
-      localStorage.setItem('doneRecipes', JSON.stringify(infoForFinished));
+      localStorage.setItem('doneRecipes', JSON.stringify([infoForFinished]));
     } else {
       localStorage.setItem(
         'doneRecipes',
-        JSON.stringify(...localFinished, infoForFinished),
+        JSON.stringify([...localFinished, infoForFinished]),
       );
     }
     history.push('/done-recipes');

@@ -30,13 +30,13 @@ const fetchMealByCategory = async (name) => {
 
 const fetchDrinksById = async (name) => {
   const response = await fetch(
-    `www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${name}`,
+    `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${name}`,
   );
   return response.json();
 };
 
 const fetchMealsById = async (name) => {
-  const response = await fetch(`www.themealdb.com/api/json/v1/1/lookup.php?i=${name}`);
+  const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${name}`);
   return response.json();
 };
 
