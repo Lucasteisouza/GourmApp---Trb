@@ -22,8 +22,9 @@ function DoneCard({ name, thumbnail, index, category,
           data-testid={ `${index}-horizontal-image` }
           width="50"
         />
+        <p data-testid={ `${index}-horizontal-name` }>{name}</p>
       </button>
-      <p data-testid={ `${index}-horizontal-name` }>{name}</p>
+
       <p data-testid={ `${index}-horizontal-top-text` }>
         {type === 'meal' ? `${nationality} - ${category}` : alcoholicOrNot}
       </p>
