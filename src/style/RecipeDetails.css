@@ -1,0 +1,15 @@
+.myCarousel {
+  display: flex;
+  overflow-x: scroll;
+  width: 100%;
+}
+
+.myCarousel .myCarousel-item {
+  min-width: 50vw;
+  width: 50vw;
+}
+
+.start-recipes {
+  bottom: 0;
+  position: fixed;
+}
