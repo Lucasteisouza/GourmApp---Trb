@@ -19,5 +19,5 @@ export default function useFetch() {
     }
   }
 
-  return { data, loading, error, fetchData };
+  return [data, loading, error, fetchData];
 }
