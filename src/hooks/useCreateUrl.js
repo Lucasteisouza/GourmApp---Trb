@@ -28,8 +28,13 @@ export default function useCreateUrl(endPoint) {
     setFullUrl(`${url.baseUrl}${end}`);
   };
 
+  const updateUrl = (newUrl) => {
+    setUrl(newUrl);
+    setFullUrl(`${newUrl.baseUrl}${newUrl.endPoint}`);
+  };
+
   return useMemo(
-    () => ([url, setEndPoint, fullUrl, setUrl, setFullUrl]),
+    () => ([url, setEndPoint, fullUrl, updateUrl, setFullUrl]),
     [url, fullUrl, endPoint],
   );
 }
