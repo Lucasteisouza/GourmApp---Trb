@@ -4,6 +4,7 @@ import { Link, useRouteMatch } from 'react-router-dom';
 import Loading from '../components/Loading';
 import useCreateUrl from '../hooks/useCreateUrl';
 import useFetch from '../hooks/useFetch';
+import { ReactComponent as ShareIcon } from '../images/shareIcon.svg';
 import '../style/RecipeDetails.css';
 
 const SIX_NUMB = 6;
@@ -146,7 +147,7 @@ function RecipeDetails() {
         onClick={ copyLink }
         data-testid="share-btn"
       >
-        share
+        <ShareIcon />
       </button>
       <button data-testid="favorite-btn">favorite</button>
     </div>
