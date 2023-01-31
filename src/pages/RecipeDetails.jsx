@@ -5,9 +5,10 @@ import Loading from '../components/Loading';
 import useCreateUrl from '../hooks/useCreateUrl';
 import useFetch from '../hooks/useFetch';
 import { ReactComponent as ShareIcon } from '../images/shareIcon.svg';
+import WhiteHeart from '../images/whiteHeartIcon.svg';
+import BlackHeart from '../images/blackHeartIcon.svg';
 import '../style/RecipeDetails.css';
-
-const SIX_NUMB = 6;
+import Carousel from '../components/Carousel';
 
 function RecipeDetails() {
   const { params, path, url } = useRouteMatch();
@@ -18,12 +19,14 @@ function RecipeDetails() {
   const [showStartRecipes, setShowStartRecipes] = useState(true);
   const [startedRecipes, setStartedRecipe] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [favorited, setFavorited] = useState(false);
 
   useState(() => {
+    const drinkOrMeal = path === '/meals/:id' ? 'meals' : 'drinks';
     const makeFetch = async () => {
       const newUrl = {
         ...recUrl,
-        baseUrl: path !== '/meals/:id'
+        baseUrl: drinkOrMeal !== 'meals'
           ? 'https://www.themealdb.com/api/json/v1/1/' : 'https://www.thecocktaildb.com/api/json/v1/1/',
       };
       setRecUrl(newUrl);
@@ -33,7 +36,7 @@ function RecipeDetails() {
 
     const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
     const haveStartedRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
-    console.log(haveStartedRecipes);
+    const favorites = JSON.parse(localStorage.getItem('favoriteRecipes'));
 
     if (doneRecipes) {
       const recipes = doneRecipes.find((recipe) => recipe.id === params.id);
@@ -41,9 +44,12 @@ function RecipeDetails() {
       if (recipes) setShowStartRecipes(false);
     }
     if (haveStartedRecipes) {
-      const drinkOrMeal = path === '/meals/:id' ? 'meals' : 'drinks';
       const recipes = haveStartedRecipes[drinkOrMeal][params.id];
       if (recipes) setStartedRecipe(true);
+    }
+    if (favorites) {
+      const recipes = favorites.find((recipe) => recipe.id === params.id);
+      if (recipes) setFavorited(true);
     }
 
     makeFetch();
@@ -52,6 +58,28 @@ function RecipeDetails() {
   const copyLink = () => {
     copy(window.location.href);
     setCopied(true);
+  };
+
+  const favoriteRecipe = () => {
+    const drinkOrMeal = path === '/meals/:id' ? 'meals' : 'drinks';
+    const actualRecipe = data[drinkOrMeal][0];
+    const item = {
+      id: params.id,
+      type: drinkOrMeal.slice(0, drinkOrMeal.length - 1),
+      nationality: actualRecipe.strArea || '',
+      category: actualRecipe.strCategory,
+      alcoholicOrNot: actualRecipe.strAlcoholic || '',
+      name: actualRecipe.strMeal || actualRecipe.strDrink,
+      image: actualRecipe.strMealThumb || actualRecipe.strDrinkThumb,
+    };
+
+    const favorites = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    setFavorited(!favorited);
+    if (!favorites) {
+      localStorage.setItem('favoriteRecipes', JSON.stringify([item]));
+      return;
+    }
+    localStorage.setItem('favoriteRecipes', JSON.stringify([...favorites, item]));
   };
 
   if (loading || !data) return <Loading />;
@@ -72,39 +100,13 @@ function RecipeDetails() {
           </p>
 
           <img
+            className="recipe-photo"
             src={ details.strMealThumb || details.strDrinkThumb }
             alt={ details.strMeal || details.strDrink }
             data-testid="recipe-photo"
           />
         </section>
-        {
-          recLoading || !recData ? <Loading /> : (
-            <section className="myCarousel">
-              {
-                (recData.drinks || recData.meals)
-                  .slice(0, SIX_NUMB).map((recommendation, index) => (
-                    <div
-                      className="myCarousel-item"
-                      key={ `${index}-recommendation` }
-                      data-testid={ `${index}-recommendation-card` }
-                    >
-                      <img
-                        src={ recommendation.strDrinkThumb
-                        || recommendation.stMealThumb }
-                        alt={ recommendation.strDrink || recommendation.strMeal }
-                      />
-                      <h4
-                        data-testid={ `${index}-recommendation-title` }
-                      >
-                        {recommendation.strDrink || recommendation.strMeal}
-                      </h4>
-                    </div>
-                  ))
-              }
-            </section>
-
-          )
-        }
+        <Carousel recLoading={ recLoading } recData={ recData } />
         <section>
           {
             ingredients.map((ingredient, index) => (
@@ -124,7 +126,7 @@ function RecipeDetails() {
                 title="video"
                 width="420"
                 height="315"
-                src={ `${details.strYoutube.split('.com/').join('.com/embed/')}` }
+                src={ details.strYoutube.replace('watch?v=', 'embed/') }
                 allowFullScreen
               />
             )
@@ -141,7 +143,7 @@ function RecipeDetails() {
         </Link>
       )}
       {
-        copied && <h5>Link copiado!</h5>
+        copied && <h5>Link copied!</h5>
       }
       <button
         onClick={ copyLink }
@@ -149,7 +151,13 @@ function RecipeDetails() {
       >
         <ShareIcon />
       </button>
-      <button data-testid="favorite-btn">favorite</button>
+      <button onClick={ favoriteRecipe }>
+        <img
+          data-testid="favorite-btn"
+          src={ favorited ? BlackHeart : WhiteHeart }
+          alt="favorite"
+        />
+      </button>
     </div>
   );
 }
