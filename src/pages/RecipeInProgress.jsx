@@ -96,6 +96,7 @@ function RecipeInProgress({ match, history }) {
       doneDate: '',
       tags: currentRecipe.strTags,
     };
+
     if (!localFinished) {
       localStorage.setItem('doneRecipes', JSON.stringify([infoForFinished]));
     } else {
