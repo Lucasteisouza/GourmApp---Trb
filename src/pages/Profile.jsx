@@ -1,6 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import Footer from '../components/Footer';
+import Header from '../components/Header';
 
 function Profile() {
   const user = JSON.parse(localStorage.getItem('user')) || '';
@@ -22,6 +23,7 @@ function Profile() {
   return (
 
     <div>
+      <Header />
       Profile
       <p data-testid="profile-email">{ user.email }</p>
       <div>

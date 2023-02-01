@@ -18,12 +18,17 @@ function Header() {
         <>
           <h3 data-testid="page-title">Meals</h3>
           <button
+            src={ searchIcon }
             data-testid="search-top-btn"
             onClick={ () => setShowSearchBar(!showSearchBar) }
           >
             <img src={ searchIcon } alt="Ícone de busca" />
           </button>
-          <button data-testid="profile-top-btn" onClick={ handleClickProfile }>
+          <button
+            data-testid="profile-top-btn"
+            src={ profileIcon }
+            onClick={ handleClickProfile }
+          >
             <img src={ profileIcon } alt="Ícone de perfil" />
           </button>
           {
@@ -35,11 +40,16 @@ function Header() {
           <h3 data-testid="page-title">Drinks</h3>
           <button
             data-testid="search-top-btn"
+            src={ searchIcon }
             onClick={ () => setShowSearchBar(!showSearchBar) }
           >
             <img src={ searchIcon } alt="Ícone de busca" />
           </button>
-          <button data-test-id="profile-top-btn" onClick={ handleClickProfile }>
+          <button
+            data-testid="profile-top-btn"
+            src={ profileIcon }
+            onClick={ handleClickProfile }
+          >
             <img src={ profileIcon } alt="Ícone de perfil" />
           </button>
           {
@@ -48,22 +58,34 @@ function Header() {
         </>)}
       {pathname === '/profile' && (
         <>
-          <h3 data-test-id="page-title">Profile</h3>
-          <button data-test-id="profile-top-btn" onClick={ handleClickProfile }>
+          <h3 data-testid="page-title">Profile</h3>
+          <button
+            data-testid="profile-top-btn"
+            src={ profileIcon }
+            onClick={ handleClickProfile }
+          >
             <img src={ profileIcon } alt="Ícone de perfil" />
           </button>
         </>)}
       {pathname === '/done-recipes' && (
         <>
-          <h3 data-test-id="page-title">Done Recipes</h3>
-          <button data-test-id="profile-top-btn" onClick={ handleClickProfile }>
+          <h3 data-testid="page-title">Done Recipes</h3>
+          <button
+            data-testid="profile-top-btn"
+            src={ profileIcon }
+            onClick={ handleClickProfile }
+          >
             <img src={ profileIcon } alt="Ícone de perfil" />
           </button>
         </>)}
       {pathname === '/favorite-recipes' && (
         <>
-          <h3 data-test-id="page-title">Favorite Recipes</h3>
-          <button data-test-id="profile-top-btn" onClick={ handleClickProfile }>
+          <h3 data-testid="page-title">Favorite Recipes</h3>
+          <button
+            data-testid="profile-top-btn"
+            src={ profileIcon }
+            onClick={ handleClickProfile }
+          >
             <img src={ profileIcon } alt="Ícone de perfil" />
           </button>
         </>)}
