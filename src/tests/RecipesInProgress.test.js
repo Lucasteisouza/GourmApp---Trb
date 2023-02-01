@@ -6,16 +6,19 @@ import oneMeal from './mocks/oneMeal';
 import renderWithRouter from './helpers/renderWithRouter';
 import App from '../App';
 
-const storedDoneRecicepsMock = { alcoholicOrNot: '',
-  category: 'Vegetarian',
-  doneDate: '',
-  id: '52771',
-  image: 'https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg',
-  name: 'Spicy Arrabiata Penne',
-  nationality: 'Italian',
-  tags: 'Pasta,Curry',
-  type: 'meals',
-};
+// const storedDoneRecicepsMock = { alcoholicOrNot: '',
+//   category: 'Vegetarian',
+//   doneDate: '',
+//   id: '52771',
+//   image: 'https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg',
+//   name: 'Spicy Arrabiata Penne',
+//   nationality: 'Italian',
+//   tags: 'Pasta,Curry',
+//   type: 'meals',
+// };
+
+const ARRABIATA_URL = '/meals/52771/in-progress';
+const doneRecipesRoute = '/done-recipes';
 
 describe('Testa a tela in-progress', () => {
   beforeEach(() => {
@@ -26,14 +29,14 @@ describe('Testa a tela in-progress', () => {
 
   it('testa se a receita correta é renderizada na página /52771/in-progress', async () => {
     const { history } = renderWithRouter(<App />);
-    act(() => history.push('/meals/52771/in-progress'));
+    act(() => history.push(ARRABIATA_URL));
     const arrabiata = await screen.findByRole('heading', { name: /spicy arrabiata penne/i });
     expect(arrabiata).toBeInTheDocument();
   });
 
   it('testa se o botão de finalizar receita é desbloqueado ao selecionar todos os ingredientes e salva a receina no localStorage', async () => {
     const { history } = renderWithRouter(<App />);
-    act(() => history.push('/meals/52771/in-progress'));
+    act(() => history.push(ARRABIATA_URL));
     const finishBtn = await screen.findByRole('button', { name: /finalizar receita/i });
     expect(finishBtn).toBeInTheDocument();
     expect(finishBtn).toHaveProperty('disabled');
@@ -54,12 +57,12 @@ describe('Testa a tela in-progress', () => {
     userEvent.click(finishBtn);
     const doneRecipes = await screen.findByRole('heading', { name: /done recipes/i });
     expect(doneRecipes).toBeInTheDocument();
-    expect(history.location.pathname).toBe('/done-recipes');
+    expect(history.location.pathname).toBe(doneRecipesRoute);
   });
 
-  it('testa se o botão de finalizar receita é desbloqueado ao selecionar todos os ingredientes e salva a receina no localStorage', async () => {
+  it('testa se a aplicação funciona com um localStorage sem a receita sendo feita', async () => {
     const { history } = renderWithRouter(<App />);
-    act(() => history.push('/meals/52771/in-progress'));
+    act(() => history.push('/meals/52772/in-progress'));
     const finishBtn = await screen.findByRole('button', { name: /finalizar receita/i });
     expect(finishBtn).toBeInTheDocument();
     expect(finishBtn).toHaveProperty('disabled');
@@ -80,14 +83,6 @@ describe('Testa a tela in-progress', () => {
     userEvent.click(finishBtn);
     const doneRecipes = await screen.findByRole('heading', { name: /done recipes/i });
     expect(doneRecipes).toBeInTheDocument();
-    expect(history.location.pathname).toBe('/done-recipes');
+    expect(history.location.pathname).toBe(doneRecipesRoute);
   });
-
-  // test('testa se a aplicação detecta a existencia da receita no localStorage', async () => {
-  //   const { history } = renderWithRouter(<App />);
-  //   localStorage.setItem('checkerList', { meals: {}, drinks: {} });
-  //   act(() => history.push('/meals/52771/in-progress'));
-    // const currentLocal = JSON.parse(localStorage.getItem('checkerList'));
-    // console.log(currentLocal);
-  // });
 });
