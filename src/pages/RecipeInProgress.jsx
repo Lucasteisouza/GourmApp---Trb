@@ -17,6 +17,7 @@ function RecipeInProgress({ match, history }) {
     const currentMealOrDrinkResponse = mealOrDrink === 'meals'
       ? await fetchMealsById(recipeId)
       : await fetchDrinksById(recipeId);
+    console.log(currentMealOrDrinkResponse[mealOrDrink][0]);
     const currentMealOrDrink = currentMealOrDrinkResponse[mealOrDrink][0];
     setCurrentRecipe(currentMealOrDrink);
     const currentIngredientEntries = Object.entries(currentMealOrDrink);
@@ -86,15 +87,16 @@ function RecipeInProgress({ match, history }) {
     const localFinished = JSON.parse(localStorage.getItem('doneRecipes'));
     const infoForFinished = {
       id: recipeId,
-      type: mealOrDrink,
-      nationality: currentRecipe.strArea,
+      type: mealOrDrink === 'meals' ? 'meal' : 'drink',
+      nationality: currentRecipe.strArea === undefined ? '' : currentRecipe.strArea,
       category: currentRecipe.strCategory,
-      alcoholicOrNot: mealOrDrink === 'drink' ? currentRecipe.strAlcoholic : '',
-      name: mealOrDrink === 'drink' ? currentRecipe.strDrink : currentRecipe.strMeal,
-      image: mealOrDrink === 'drink'
-        ? currentRecipe.strDrinkThumb : currentRecipe.strMealThumb,
-      doneDate: '',
-      tags: currentRecipe.strTags,
+      alcoholicOrNot: mealOrDrink === 'drinks' ? currentRecipe.strAlcoholic : '',
+      name: mealOrDrink === 'meals' ? currentRecipe.strMeal : currentRecipe.strDrink,
+      image: mealOrDrink === 'meals'
+        ? currentRecipe.strMealThumb : currentRecipe.strDrinkThumb,
+      doneDate: new Date().toISOString(),
+      tags: typeof currentRecipe.strTags === 'string'
+        ? currentRecipe.strTags.split(',') : [],
     };
 
     if (!localFinished) {

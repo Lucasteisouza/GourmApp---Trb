@@ -34,7 +34,7 @@ describe('Testa a tela in-progress', () => {
     expect(arrabiata).toBeInTheDocument();
   });
 
-  it('testa se o botão de finalizar receita é desbloqueado ao selecionar todos os ingredientes e salva a receina no localStorage', async () => {
+  it('testa se o botão de finalizar receita é desbloqueado ao selecionar todos os ingredientes e redireciona para /done-recipes para meal', async () => {
     const { history } = renderWithRouter(<App />);
     act(() => history.push(ARRABIATA_URL));
     const finishBtn = await screen.findByRole('button', { name: /finalizar receita/i });
@@ -61,6 +61,7 @@ describe('Testa a tela in-progress', () => {
   });
 
   it('testa se a aplicação funciona com um localStorage sem a receita sendo feita', async () => {
+    localStorage.clear();
     const { history } = renderWithRouter(<App />);
     act(() => history.push('/meals/52772/in-progress'));
     const finishBtn = await screen.findByRole('button', { name: /finalizar receita/i });
