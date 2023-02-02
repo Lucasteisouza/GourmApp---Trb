@@ -36,7 +36,7 @@ const IMAGE_HORIZONTAL2 = '1-horizontal-image';
 // const FAVORITE_BTN1 = '0-horizontal-favorite-btn';
 // const FAVORITE_BTN2 = '1-horizontal-favorite-btn';
 const FILTER_ALL_BTN = 'filter-by-all-btn';
-const FILTER_FOOD_BTN = 'filter-by-food-btn';
+const FILTER_FOOD_BTN = 'filter-by-meal-btn';
 const FILTER_DRINK_BTN = 'filter-by-drink-btn';
 
 describe('testa a página DoneRecipes e suas funcionalidades', () => {
