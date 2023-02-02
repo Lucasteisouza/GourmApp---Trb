@@ -4,7 +4,7 @@ import Footer from '../components/Footer';
 import FavoriteCard from '../components/FavoriteCard';
 
 function FavoriteRecipes() {
-  const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
+  const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
   const [typeFilter, setTypeFilter] = useState('');
   const [recipes, setRecipes] = useState([...favoriteRecipes]);
 
