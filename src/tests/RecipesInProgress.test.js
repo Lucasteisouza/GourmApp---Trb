@@ -57,6 +57,9 @@ const storedProgress = {
 const ARRABIATA_URL = '/meals/52771/in-progress';
 const doneRecipesRoute = '/done-recipes';
 
+jest.mock('clipboard-copy', () => jest.fn());
+const copy = require('clipboard-copy');
+
 const mockFetch = (url) => Promise.resolve({
   status: 200,
   ok: true,
@@ -201,6 +204,7 @@ describe('Testa a tela in-progress', () => {
     act(() => history.push('/drinks/178319/in-progress'));
     const shareBtn = screen.getByTestId('share-btn');
     act(() => userEvent.click(shareBtn));
+    expect(copy).toHaveBeenCalled();
     const favBtn = screen.getByTestId('favorite-btn');
     act(() => userEvent.click(favBtn));
   });

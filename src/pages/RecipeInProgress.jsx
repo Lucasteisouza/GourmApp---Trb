@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
+import copy from 'clipboard-copy';
 import { fetchDrinksById, fetchMealsById } from '../services/fetch';
 import '../style/RecipeInProgress.css';
 
@@ -8,6 +9,7 @@ function RecipeInProgress({ match, history }) {
   const [ingredientList, setIngredientList] = useState(null);
   const [ingredientCheck, setIngredientCheck] = useState([]);
   const [currentRecipe, setCurrentRecipe] = useState(null);
+  const [shared, setShared] = useState(false);
   const recipeId = match.params.id;
   const { pathname } = history.location;
   const mealOrDrink = pathname.includes('meal') ? 'meals' : 'drinks';
@@ -119,11 +121,23 @@ function RecipeInProgress({ match, history }) {
     setIngredientCheck(newChecker);
   };
 
+  const handleShare = () => {
+    copy(`http://localhost:3000/${mealOrDrink}/${recipeId}`);
+    setShared(true);
+  };
+
   return (
     <div>
       <h1>RecipeInProgress</h1>
       { recipeDetails }
-      <button type="button" data-testid="share-btn">Compartilhar</button>
+      <button
+        type="button"
+        data-testid="share-btn"
+        onClick={ handleShare }
+      >
+        Compartilhar
+      </button>
+      { shared && <p>Link copied!</p>}
       <button type="button" data-testid="favorite-btn">Favoritar</button>
       { ingredientList
       && (
