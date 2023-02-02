@@ -17,7 +17,6 @@ function RecipeInProgress({ match, history }) {
     const currentMealOrDrinkResponse = mealOrDrink === 'meals'
       ? await fetchMealsById(recipeId)
       : await fetchDrinksById(recipeId);
-    console.log(currentMealOrDrinkResponse[mealOrDrink][0]);
     const currentMealOrDrink = currentMealOrDrinkResponse[mealOrDrink][0];
     setCurrentRecipe(currentMealOrDrink);
     const currentIngredientEntries = Object.entries(currentMealOrDrink);
@@ -84,7 +83,7 @@ function RecipeInProgress({ match, history }) {
   }, []);
 
   const handleFinishRecipe = () => {
-    const localFinished = JSON.parse(localStorage.getItem('doneRecipes'));
+    const localFinished = JSON.parse(localStorage.getItem('doneRecipes')) || [];
     const infoForFinished = {
       id: recipeId,
       type: mealOrDrink === 'meals' ? 'meal' : 'drink',
@@ -99,14 +98,11 @@ function RecipeInProgress({ match, history }) {
         ? currentRecipe.strTags.split(',') : [],
     };
 
-    if (!localFinished) {
-      localStorage.setItem('doneRecipes', JSON.stringify([infoForFinished]));
-    } else {
-      localStorage.setItem(
-        'doneRecipes',
-        JSON.stringify([...localFinished, infoForFinished]),
-      );
-    }
+    localStorage.setItem(
+      'doneRecipes',
+      JSON.stringify([...localFinished, infoForFinished]),
+    );
+
     history.push('/done-recipes');
   };
 
