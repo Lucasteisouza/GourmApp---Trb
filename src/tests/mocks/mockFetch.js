@@ -1,7 +1,11 @@
 import oneMeal from '../../../cypress/mocks/oneMeal';
 import drinks from '../../../cypress/mocks/drinks';
+import drinkCategories from '../../../cypress/mocks/drinkCategories';
+import cocktailDrinks from '../../../cypress/mocks/cocktailDrinks';
+import mealCategories from '../../../cypress/mocks/mealCategories';
 import meals from '../../../cypress/mocks/meals';
 import mealsByIngredient from '../../../cypress/mocks/mealsByIngredient';
+import beefMeals from '../../../cypress/mocks/beefMeals';
 import firstLetterN from './firstLetterN';
 import emptyMock from './emptyMock';
 import drinkLetterY from './drinkLetterY';
@@ -41,6 +45,22 @@ const mockFetch = (url) => Promise.resolve({
     if (url === `${DRINKS_URL}search.php?f=y`
     || url === `${MEALS_URL}search.php?f=y`) {
       return Promise.resolve(drinkLetterY);
+    }
+
+    if (url === `${DRINKS_URL}list.php?c=list`) {
+      return Promise.resolve(drinkCategories);
+    }
+
+    if (url === `${MEALS_URL}list.php?c=list`) {
+      return Promise.resolve(mealCategories);
+    }
+
+    if (url === `${MEALS_URL}filter.php?c=Beef`) {
+      return Promise.resolve(beefMeals);
+    }
+
+    if (url === `${DRINKS_URL}filter.php?c=Cocktail`) {
+      return Promise.resolve(cocktailDrinks);
     }
   },
 });
