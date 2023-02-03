@@ -55,6 +55,7 @@ const storedProgress = {
 };
 
 const ARRABIATA_URL = '/meals/52771/in-progress';
+const FAVORITE_BTN = 'favorite-btn';
 const doneRecipesRoute = '/done-recipes';
 
 jest.mock('clipboard-copy', () => jest.fn());
@@ -186,6 +187,8 @@ describe('Testa a tela in-progress', () => {
     expect(finishBtn).toHaveProperty('disabled');
     const checkboxes = await screen.findAllByRole('checkbox');
     expect(checkboxes.length).toBe(3);
+    const favBtn = screen.getByTestId(FAVORITE_BTN);
+    act(() => userEvent.click(favBtn));
     userEvent.click(checkboxes[0]);
     userEvent.click(checkboxes[1]);
     userEvent.click(checkboxes[2]);
@@ -200,12 +203,28 @@ describe('Testa a tela in-progress', () => {
   });
 
   it('testa os botões de compartilhar e favoritar', async () => {
+    localStorage.setItem('favoriteRecipes', JSON.stringify(storedDoneRecipesMock));
     const { history } = renderWithRouter(<App />);
     act(() => history.push('/drinks/178319/in-progress'));
     const shareBtn = screen.getByTestId('share-btn');
     act(() => userEvent.click(shareBtn));
     expect(copy).toHaveBeenCalled();
-    const favBtn = screen.getByTestId('favorite-btn');
+    const favBtn = screen.getByTestId(FAVORITE_BTN);
     act(() => userEvent.click(favBtn));
+  });
+
+  it('testa os botões de compartilhar e favoritar com meal', async () => {
+    localStorage.setItem('favoriteRecipes', JSON.stringify(storedDoneRecipesMock));
+    const { history } = renderWithRouter(<App />);
+    act(() => history.push(ARRABIATA_URL));
+    const shareBtn = screen.getByTestId('share-btn');
+    act(() => userEvent.click(shareBtn));
+    expect(copy).toHaveBeenCalled();
+    const favBtn = screen.getByTestId(FAVORITE_BTN);
+    act(() => {
+      userEvent.click(favBtn);
+      userEvent.click(favBtn);
+      userEvent.click(favBtn);
+    });
   });
 });
