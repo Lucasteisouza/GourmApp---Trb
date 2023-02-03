@@ -1,5 +1,5 @@
 import copy from 'clipboard-copy';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useRouteMatch } from 'react-router-dom';
 import Loading from '../components/Loading';
 import useCreateUrl from '../hooks/useCreateUrl';
@@ -21,7 +21,7 @@ function RecipeDetails() {
   const [copied, setCopied] = useState(false);
   const [favorited, setFavorited] = useState(false);
 
-  useState(() => {
+  useEffect(() => {
     const drinkOrMeal = path === '/meals/:id' ? 'meals' : 'drinks';
     const makeFetch = async () => {
       const newUrl = {
@@ -40,7 +40,6 @@ function RecipeDetails() {
 
     if (doneRecipes) {
       const recipes = doneRecipes.find((recipe) => recipe.id === params.id);
-      console.log(recipes);
       if (recipes) setShowStartRecipes(false);
     }
     if (haveStartedRecipes) {
