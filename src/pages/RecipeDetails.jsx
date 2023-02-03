@@ -36,14 +36,15 @@ function RecipeDetails() {
 
     const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
     const haveStartedRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    console.log(haveStartedRecipes);
     const favorites = JSON.parse(localStorage.getItem('favoriteRecipes'));
 
     if (doneRecipes) {
       const recipes = doneRecipes.find((recipe) => recipe.id === params.id);
       if (recipes) setShowStartRecipes(false);
     }
-    if (haveStartedRecipes) {
-      const recipes = haveStartedRecipes[drinkOrMeal][params.id];
+    if (haveStartedRecipes && haveStartedRecipes[drinkOrMeal]) {
+      const recipes = haveStartedRecipes[drinkOrMeal][params.id] || null;
       if (recipes) setStartedRecipe(true);
     }
     if (favorites) {
@@ -88,7 +89,7 @@ function RecipeDetails() {
     .filter((key) => key[0].includes('strIngredient') && key[1]);
   const measurement = Object.entries(details)
     .filter((key) => key[0].includes('strMeasure') && key[1]);
-
+  console.log(ingredients, measurement);
   return (
     <div>
       <main>
@@ -113,7 +114,8 @@ function RecipeDetails() {
                 key={ `${index}-ingredient-name-and-measure` }
                 data-testid={ `${index}-ingredient-name-and-measure` }
               >
-                {`${ingredient[1]} - ${measurement[index][1]}`}
+                {`${ingredient[1]} 
+                ${measurement[index] ? `- ${measurement[index][1]}` : ''}`}
               </p>
             ))
           }
