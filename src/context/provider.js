@@ -5,7 +5,7 @@ import useFetch from '../hooks/useFetch';
 
 function Provider({ children }) {
   const [userName, setUserName] = useState('');
-  const { data: searchResult, loading, error, fetchData } = useFetch();
+  const [searchResult, loading, error, fetchData] = useFetch();
   const [recipes, setRecipes] = useState({
     meals: [],
     drinks: [],

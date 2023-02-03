@@ -9,34 +9,55 @@ import beefMeals from '../../../cypress/mocks/beefMeals';
 import firstLetterN from './firstLetterN';
 import emptyMock from './emptyMock';
 import drinkLetterY from './drinkLetterY';
+import oneDrink from '../../../cypress/mocks/oneDrink';
 
 const MEALS_URL = 'https://www.themealdb.com/api/json/v1/1/';
 const DRINKS_URL = 'https://www.thecocktaildb.com/api/json/v1/1/';
+
+const mealsFunc = (url) => {
+  if (url === `${MEALS_URL}search.php?s=Brown Stew Chicken`) {
+    return oneMeal;
+  }
+  if (url === `${MEALS_URL}search.php?s=`) {
+    return meals;
+  }
+  if (url === `${MEALS_URL}filter.php?i=chicken`) {
+    return mealsByIngredient;
+  }
+  if (url === `${MEALS_URL}search.php?f=n`) {
+    return firstLetterN;
+  }
+  if (url === `${MEALS_URL}list.php?c=list`) {
+    return mealCategories;
+  }
+  if (url === `${MEALS_URL}filter.php?c=Beef`) {
+    return beefMeals;
+  }
+  if (url === `${MEALS_URL}lookup.php?i=52771`) {
+    return oneMeal;
+  }
+};
+
+const drinksFunc = (url) => {
+  if (url === `${DRINKS_URL}search.php?s=`) {
+    return drinks;
+  }
+  if (url === `${DRINKS_URL}list.php?c=list`) {
+    return drinkCategories;
+  }
+  if (url === `${DRINKS_URL}filter.php?c=Cocktail`) {
+    return cocktailDrinks;
+  }
+
+  if (url === `${DRINKS_URL}lookup.php?i=178319`) {
+    return oneDrink;
+  }
+};
 
 const mockFetch = (url) => Promise.resolve({
   status: 200,
   ok: true,
   json: () => {
-    if (url === `${MEALS_URL}search.php?s=Brown Stew Chicken`) {
-      return Promise.resolve(oneMeal);
-    }
-
-    if (url === `${DRINKS_URL}search.php?s=`) {
-      return Promise.resolve(drinks);
-    }
-
-    if (url === `${MEALS_URL}search.php?s=`) {
-      return Promise.resolve(meals);
-    }
-
-    if (url === `${MEALS_URL}filter.php?i=chicken`) {
-      return Promise.resolve(mealsByIngredient);
-    }
-
-    if (url === `${MEALS_URL}search.php?f=n`) {
-      return Promise.resolve(firstLetterN);
-    }
-
     if (url === `${DRINKS_URL}search.php?s=barabam`
       || url === `${MEALS_URL}search.php?s=barabam`) {
       return Promise.resolve(emptyMock);
@@ -47,21 +68,14 @@ const mockFetch = (url) => Promise.resolve({
       return Promise.resolve(drinkLetterY);
     }
 
-    if (url === `${DRINKS_URL}list.php?c=list`) {
-      return Promise.resolve(drinkCategories);
+    if (url.includes(MEALS_URL)) {
+      return Promise.resolve(mealsFunc(url));
     }
 
-    if (url === `${MEALS_URL}list.php?c=list`) {
-      return Promise.resolve(mealCategories);
+    if (url.includes(DRINKS_URL)) {
+      return Promise.resolve(drinksFunc(url));
     }
-
-    if (url === `${MEALS_URL}filter.php?c=Beef`) {
-      return Promise.resolve(beefMeals);
-    }
-
-    if (url === `${DRINKS_URL}filter.php?c=Cocktail`) {
-      return Promise.resolve(cocktailDrinks);
-    }
+    // return Promise.resolve(mealsFunc(url) || drinksFunc(url));
   },
 });
 
