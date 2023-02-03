@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import copy from 'clipboard-copy';
 import { fetchDrinksById, fetchMealsById } from '../services/fetch';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import '../style/RecipeInProgress.css';
 
 function RecipeInProgress({ match, history }) {
@@ -10,10 +12,14 @@ function RecipeInProgress({ match, history }) {
   const [ingredientCheck, setIngredientCheck] = useState([]);
   const [currentRecipe, setCurrentRecipe] = useState(null);
   const [shared, setShared] = useState(false);
+  const favoriteLocal = (JSON.parse(localStorage.getItem('favoriteRecipes'))) || [];
+  const [favorites, setFavorites] = useState(favoriteLocal);
   const recipeId = match.params.id;
   const { pathname } = history.location;
   const mealOrDrink = pathname.includes('meal') ? 'meals' : 'drinks';
   const checkerLocalStorage = JSON.parse(localStorage.getItem('checkerList'));
+
+  const isFavorited = favorites.find((e) => e.id === recipeId);
 
   const fetcher = async () => {
     const currentMealOrDrinkResponse = mealOrDrink === 'meals'
@@ -99,7 +105,6 @@ function RecipeInProgress({ match, history }) {
       tags: typeof currentRecipe.strTags === 'string'
         ? currentRecipe.strTags.split(',') : [],
     };
-
     localStorage.setItem(
       'doneRecipes',
       JSON.stringify([...localFinished, infoForFinished]),
@@ -126,6 +131,30 @@ function RecipeInProgress({ match, history }) {
     setShared(true);
   };
 
+  const handleFavorite = () => {
+    if (isFavorited) {
+      const removedCurrent = favorites.filter((e) => e.id !== recipeId);
+      setFavorites(removedCurrent);
+      localStorage.setItem('favoriteRecipes', JSON.stringify(removedCurrent));
+    } else {
+      const infoForFavorite = {
+        id: recipeId,
+        type: mealOrDrink === 'meals' ? 'meal' : 'drink',
+        nationality: currentRecipe.strArea === undefined ? '' : currentRecipe.strArea,
+        category: currentRecipe.strCategory,
+        alcoholicOrNot: mealOrDrink === 'drinks' ? currentRecipe.strAlcoholic : '',
+        name: mealOrDrink === 'meals' ? currentRecipe.strMeal : currentRecipe.strDrink,
+        image: mealOrDrink === 'meals'
+          ? currentRecipe.strMealThumb : currentRecipe.strDrinkThumb,
+      };
+      setFavorites([...favorites, infoForFavorite]);
+      localStorage.setItem(
+        'favoriteRecipes',
+        JSON.stringify([...favorites, infoForFavorite]),
+      );
+    }
+  };
+
   return (
     <div>
       <h1>RecipeInProgress</h1>
@@ -138,7 +167,14 @@ function RecipeInProgress({ match, history }) {
         Compartilhar
       </button>
       { shared && <p>Link copied!</p>}
-      <button type="button" data-testid="favorite-btn">Favoritar</button>
+      <button
+        type="button"
+        data-testid="favorite-btn"
+        onClick={ handleFavorite }
+        src={ isFavorited ? blackHeartIcon : whiteHeartIcon }
+      >
+        <img src={ isFavorited ? blackHeartIcon : whiteHeartIcon } alt="favIcon" />
+      </button>
       { ingredientList
       && (
         <ul>

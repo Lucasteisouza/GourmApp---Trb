@@ -186,6 +186,8 @@ describe('Testa a tela in-progress', () => {
     expect(finishBtn).toHaveProperty('disabled');
     const checkboxes = await screen.findAllByRole('checkbox');
     expect(checkboxes.length).toBe(3);
+    const favBtn = screen.getByTestId('favorite-btn');
+    act(() => userEvent.click(favBtn));
     userEvent.click(checkboxes[0]);
     userEvent.click(checkboxes[1]);
     userEvent.click(checkboxes[2]);
@@ -200,6 +202,7 @@ describe('Testa a tela in-progress', () => {
   });
 
   it('testa os botões de compartilhar e favoritar', async () => {
+    localStorage.setItem('favoriteRecipes', JSON.stringify(storedDoneRecipesMock));
     const { history } = renderWithRouter(<App />);
     act(() => history.push('/drinks/178319/in-progress'));
     const shareBtn = screen.getByTestId('share-btn');
