@@ -1,4 +1,15 @@
 .footer {
+  background-color: #e3001a;
   bottom: 0;
+  display: flex;
+  justify-content: space-between;
   position: fixed;
+  width: 100%;
+}
+
+/* https://stackoverflow.com/a/53336754 Como filtrar o SVG para a cor desejada */
+.footerIcon {
+  filter: invert(94%) sepia(10%) saturate(6536%)
+    hue-rotate(331deg) brightness(112%) contrast(102%);
+  padding: 0.75rem;
 }
