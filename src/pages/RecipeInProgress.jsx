@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import copy from 'clipboard-copy';
+import Image from 'react-bootstrap/Image';
+import Button from 'react-bootstrap/Button';
 import { fetchDrinksById, fetchMealsById } from '../services/fetch';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
@@ -49,36 +51,37 @@ function RecipeInProgress({ match, history }) {
 
     const details = pathname.includes('meals')
       ? (
-        <div>
+        <div className="recipe-in-progress">
           <h3 data-testid="recipe-title">
             { currentMealOrDrink.strMeal }
           </h3>
           <p data-testid="recipe-category">
             { currentMealOrDrink.strCategory }
           </p>
-          <img
+          <Image
             src={ currentMealOrDrink.strMealThumb }
             alt={ currentMealOrDrink.strMeal }
             data-testid="recipe-photo"
           />
-          <p data-testid="instructions">
+          <p data-testid="instructions" className="instructions">
             { currentMealOrDrink.strInstructions }
           </p>
         </div>)
       : (
-        <div>
+        <div className="recipe-in-progress">
           <h3 data-testid="recipe-title">
             { currentMealOrDrink.strDrink }
           </h3>
           <p data-testid="recipe-category">
             { currentMealOrDrink.strAlcoholic }
           </p>
-          <img
+          <Image
+            rounded
             src={ currentMealOrDrink.strDrinkThumb }
             alt={ currentMealOrDrink.strDrink }
             data-testid="recipe-photo"
           />
-          <p data-testid="instructions">
+          <p data-testid="instructions" className="instructions">
             { currentMealOrDrink.strInstructions }
           </p>
         </div>);
@@ -156,36 +159,20 @@ function RecipeInProgress({ match, history }) {
   };
 
   return (
-    <div>
-      <h1>RecipeInProgress</h1>
+    <div className="in-progress-main">
+      <h1>Recipe in progress</h1>
       { recipeDetails }
-      <button
-        type="button"
-        data-testid="share-btn"
-        onClick={ handleShare }
-      >
-        Compartilhar
-      </button>
-      { shared && <p>Link copied!</p>}
-      <button
-        type="button"
-        data-testid="favorite-btn"
-        onClick={ handleFavorite }
-        src={ isFavorited ? blackHeartIcon : whiteHeartIcon }
-      >
-        <img src={ isFavorited ? blackHeartIcon : whiteHeartIcon } alt="favIcon" />
-      </button>
       { ingredientList
       && (
-        <ul>
+        <ol className="checkbox-list">
           { ingredientList.map((e, index) => (
-            <li key={ index }>
+            <li key={ index } className="list-item">
               <label
                 htmlFor={ `input${index}` }
                 data-testid={ `${index}-ingredient-step` }
                 className={ ingredientCheck[index] }
               >
-                <span>{ e }</span>
+                <span>{ `${e}    ` }</span>
                 <input
                   type="checkbox"
                   name={ `input${index}` }
@@ -195,15 +182,36 @@ function RecipeInProgress({ match, history }) {
                 />
               </label>
             </li>)) }
-        </ul>)}
-      <button
+        </ol>)}
+      <div className="share-fav">
+        <Button
+          variant="warning"
+          type="button"
+          data-testid="share-btn"
+          onClick={ handleShare }
+        >
+          Compartilhar
+        </Button>
+        { shared && <p>Link copied!</p>}
+        <Button
+          variant="warning"
+          type="button"
+          data-testid="favorite-btn"
+          onClick={ handleFavorite }
+          src={ isFavorited ? blackHeartIcon : whiteHeartIcon }
+        >
+          <img src={ isFavorited ? blackHeartIcon : whiteHeartIcon } alt="favIcon" />
+        </Button>
+      </div>
+      <Button
+        variant="warning"
         type="button"
         data-testid="finish-recipe-btn"
         onClick={ handleFinishRecipe }
         disabled={ !ingredientCheck.every((e) => e === 'done') }
       >
         Finalizar receita
-      </button>
+      </Button>
     </div>
   );
 }

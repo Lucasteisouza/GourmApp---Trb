@@ -1,3 +1,52 @@
+.in-progress-main {
+  align-items: center;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 .done {
   text-decoration: line-through solid black;
+}
+
+.recipe-in-progress {
+  background-color: white;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+}
+
+.recipe-in-progress img {
+  background-color: rgb(255, 216, 51);
+  border-radius: 20px;
+  height: 200px;
+  margin-bottom: 10px;
+  object-fit: cover;
+  padding: 5px;
+}
+
+.checkbox-list {
+  align-self: center;
+  background-color: rgb(227, 0, 26);
+  border-radius: 10px;
+  width: 95%;
+}
+
+.instructions {
+  border: solid rgb(0, 1, 25) 2px;
+  padding: 10px;
+}
+
+.list-item {
+  padding: 5px;
+}
+
+.share-fav {
+  align-content: flex-start;
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 10px;
+  width: 90%;
 }
