@@ -1,13 +1,14 @@
-# :construction: README customizado em construção ! :construction:
-<!-- Olá, Tryber!
-Esse é apenas um arquivo inicial para o README do seu projeto no qual você pode customizar e reutilizar todas as vezes que for executar o trybe-publisher.
+# GourmApp
+### A simple recipe app developed using React.js.
 
-Para deixá-lo com a sua cara, basta alterar o seguinte arquivo da sua máquina: ~/.student-repo-publisher/custom/_NEW_README.md
+This repo was created as part of the final project in the Front-end module at @Trybe.
+We developed an application capable of consuming the MealDB/DrinkDB with many functionalities, such as favoriting recipes, kepping track of  progress and finished recipes.
 
-É essencial que você preencha esse documento por conta própria, ok?
-Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua criatividade brilhar!
-:warning: IMPORTANTE: você precisa deixar nítido:
-- quais arquivos/pastas foram desenvolvidos por você; 
-- quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
-- quais arquivos/pastas foram desenvolvidos pela Trybe.
--->
+This project was developend in 5 days alongside [Vitor Wagner](https://github.com/vitorwagner), [Ikaro Vieira](https://github.com/Ikarosv), [Daniel Regis](https://github.com/dnlrgs) e Rafael Henrique.
+
+## How to run
+1. Clone this repository
+2. Install the dependencies with 
+```npm install```
+
+3. Start the application with ```npm start```
